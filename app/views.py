@@ -7,7 +7,8 @@ This file creates your application.
 
 from app import app
 from flask import render_template, request, redirect, url_for
-
+from app.forms import AddProperty
+from werkzeug.utils import secure_filename
 
 ###
 # Routing for your application.
@@ -22,7 +23,7 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Rushawn Campbell")
 
 
 ###
@@ -44,6 +45,34 @@ def send_text_file(file_name):
     file_dot_text = file_name + '.txt'
     return app.send_static_file(file_dot_text)
 
+@app.route('/properties/create', methods =['GET', 'POST'])
+def addproperty():
+    formobject =  AddProperty()
+
+    if request.method == 'GET':
+        return render_template('addproperty.html', formobj = formobject)
+
+
+    if request.method == 'POST':
+        if formobject.validate_on_submit(): 
+            fileobj = request.files['upload']
+            cleanedname = secure_filename(fileobj.filename)
+       
+            if fileobj and cleanedname != "" :
+                fileobj.save(os.path.join(app.config['UPLOAD_FOLDER'], cleanedname))
+                flash('Your Property Was Successfully Added', 'success')
+                return redirect(url_for('displayproperties'))
+    #flash_errors(formobject) 
+    return render_template('addproperty.html', formobj = formobject)
+
+
+@app.route('/properties')
+def displayproperties():
+    return render_template('base.html')
+
+@app.route('/properties/<propertyid>')
+def displayproperty():
+    return render_template('base.html')
 
 @app.after_request
 def add_header(response):
@@ -55,7 +84,6 @@ def add_header(response):
     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
-
 
 @app.errorhandler(404)
 def page_not_found(error):

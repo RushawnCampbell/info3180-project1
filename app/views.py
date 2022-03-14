@@ -4,10 +4,11 @@ Jinja2 Documentation:    https://jinja.palletsprojects.com/
 Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
-
-from app import app
-from flask import render_template, request, redirect, url_for
+import os
+from app import app, db
+from flask import render_template, request, redirect, url_for, flash, send_from_directory
 from app.forms import AddProperty
+from app.models import Property
 from werkzeug.utils import secure_filename
 
 ###
@@ -39,6 +40,10 @@ def flash_errors(form):
                 error
             ), 'danger')
 
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
+
 @app.route('/<file_name>.txt')
 def send_text_file(file_name):
     """Send your static text file."""
@@ -55,11 +60,14 @@ def addproperty():
 
     if request.method == 'POST':
         if formobject.validate_on_submit(): 
-            fileobj = request.files['upload']
+            fileobj = request.files['photo']
             cleanedname = secure_filename(fileobj.filename)
-       
+            fileobj.save(os.path.join(app.config['UPLOAD_FOLDER'], cleanedname))
             if fileobj and cleanedname != "" :
-                fileobj.save(os.path.join(app.config['UPLOAD_FOLDER'], cleanedname))
+                
+                newproperty = Property(request.form['propertytitle'],request.form['numberofrooms'], request.form['numberofbathrooms'], request.form['location'], request.form['price'], request.form['description'], request.form['Type'], cleanedname)
+                db.session.add(newproperty)
+                db.session.commit()
                 flash('Your Property Was Successfully Added', 'success')
                 return redirect(url_for('displayproperties'))
     #flash_errors(formobject) 
@@ -68,7 +76,10 @@ def addproperty():
 
 @app.route('/properties')
 def displayproperties():
-    return render_template('base.html')
+   if request.method == 'GET':
+       properties = Property.query.all()
+       return render_template('properties.html', propertylist = properties)
+
 
 @app.route('/properties/<propertyid>')
 def displayproperty():

@@ -21,3 +21,7 @@ img#projectlogo{
     width: 1em;
     margin-right: .5em;
 }
+section#propertyset{
+    display: grid;
+    grid-template-columns : repeat(3, 1fr);
+}

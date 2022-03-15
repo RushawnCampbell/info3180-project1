@@ -12,10 +12,11 @@
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src='{{ url_for("get_image", filename=property.photo)}}' alt="Property image"/>
         <div class="card-body"> 
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h5 class="card-title">{{property.propertytitle}}</h5>
+         <span><img class="locationimg" src="{{url_for('static', filename='images/location.png')}}"/> {{property.location}} </span>
+         <span id="price"> {{property.price}} </span>
         </div>
+        <a href="{{url_for('displayproperty', propertyid = property.id)}}" class="cardbtn"> View Property </a>
       </div>
     {% endfor %}
 </section>

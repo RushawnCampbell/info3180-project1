@@ -24,4 +24,48 @@ img#projectlogo{
 section#propertyset{
     display: grid;
     grid-template-columns : repeat(3, 1fr);
+    grid-row-gap: 1.5em;
+}
+
+div.card{
+    width: 24rem !important;
+}
+
+div.card-body{
+    display: flex;
+    flex-flow: column wrap;
+}
+
+div img.card-img-top{
+    height:20rem;
+}
+
+span img.locationimg{
+    width: 1.7em;
+}
+
+span{
+    margin-bottom: 1em;
+    color: #9FA4B2;
+}
+span#price{
+    display: inline-block;
+    background: #60A5FA;
+    border-radius: .5em;
+    width: fit-content;
+    color: #fff;
+    padding: .2em .5em .2em .5em
+}
+
+a.cardbtn{
+    width: 100%;
+    padding: 0;
+    margin:0;
+    background: #3AB9A7;
+    color: #fff;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border: none;
+    text-align: center;
+    text-decoration: none;
 }

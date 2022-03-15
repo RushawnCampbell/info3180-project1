@@ -64,7 +64,6 @@ def addproperty():
             cleanedname = secure_filename(fileobj.filename)
             fileobj.save(os.path.join(app.config['UPLOAD_FOLDER'], cleanedname))
             if fileobj and cleanedname != "" :
-                
                 newproperty = Property(request.form['propertytitle'],request.form['numberofrooms'], request.form['numberofbathrooms'], request.form['location'], request.form['price'], request.form['description'], request.form['Type'], cleanedname)
                 db.session.add(newproperty)
                 db.session.commit()
@@ -83,7 +82,8 @@ def displayproperties():
 
 @app.route('/properties/<propertyid>')
 def displayproperty():
-    return render_template('base.html')
+    property = Property.query.all().filter_by(id=str(propertyid))
+    return render_template('property.html', singleproperty = property )
 
 @app.after_request
 def add_header(response):

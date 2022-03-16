@@ -5,12 +5,13 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
 import os
+import locale
 from app import app, db
 from flask import render_template, request, redirect, url_for, flash, send_from_directory
 from app.forms import AddProperty
 from app.models import Property
 from werkzeug.utils import secure_filename
-
+locale.setlocale( locale.LC_ALL, 'en_CA.UTF-8' )
 ###
 # Routing for your application.
 ###
@@ -77,7 +78,7 @@ def addproperty():
 def displayproperties():
    if request.method == 'GET':
        properties = Property.query.all()
-       return render_template('properties.html', propertylist = properties)
+       return render_template('properties.html', propertylist = properties, loc =locale)
 
 
 @app.route('/properties/<propertyid>')
@@ -94,7 +95,7 @@ def displayproperty(propertyid):
     else:
         bathroomlabel ='Bathroom'
     
-    return render_template('property.html', singleproperty = property, bathlabel = bathroomlabel, bedlabel = bedroomlabel)
+    return render_template('property.html', singleproperty = property, bathlabel = bathroomlabel, bedlabel = bedroomlabel, loc=locale)
 
 @app.after_request
 def add_header(response):

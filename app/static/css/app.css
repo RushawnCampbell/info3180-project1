@@ -25,6 +25,7 @@ section#propertyset{
     display: grid;
     grid-template-columns : repeat(3, 1fr);
     grid-row-gap: 1.5em;
+    margin: 0 auto;
 }
 
 div.card{
@@ -52,6 +53,10 @@ span.bedspan, span.bathspan{
 span{
     margin-bottom: 1em;
     color: #9FA4B2;
+}
+
+span.bedspan, span.bathspan, span.locationspan{
+    color: #000;
 }
 span.price{
     display: inline-block;

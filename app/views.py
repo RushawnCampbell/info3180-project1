@@ -81,9 +81,20 @@ def displayproperties():
 
 
 @app.route('/properties/<propertyid>')
-def displayproperty():
-    property = Property.query.all().filter_by(id=str(propertyid))
-    return render_template('property.html', singleproperty = property )
+def displayproperty(propertyid):
+    property = Property.query.filter(Property.id==propertyid).all()[0]
+    
+    if property.numberofrooms > 1:
+        bedroomlabel = 'Bedrooms'
+    else:
+        bedroomlabel = 'Bedroom'
+
+    if property.numberofbathrooms > 1:
+        bathroomlabel ='Bathrooms'
+    else:
+        bathroomlabel ='Bathroom'
+    
+    return render_template('property.html', singleproperty = property, bathlabel = bathroomlabel, bedlabel = bedroomlabel)
 
 @app.after_request
 def add_header(response):

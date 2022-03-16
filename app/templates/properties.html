@@ -14,7 +14,7 @@
         <div class="card-body"> 
           <h5 class="card-title">{{property.propertytitle}}</h5>
          <span><img class="locationimg" src="{{url_for('static', filename='images/location.png')}}"/> {{property.location}} </span>
-         <span id="price"> {{property.price}} </span>
+         <span class="price"> ${{property.price}} </span>
         </div>
         <a href="{{url_for('displayproperty', propertyid = property.id)}}" class="cardbtn"> View Property </a>
       </div>

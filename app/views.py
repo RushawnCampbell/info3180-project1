@@ -70,7 +70,7 @@ def addproperty():
                 db.session.commit()
                 flash('Your Property Was Successfully Added', 'success')
                 return redirect(url_for('displayproperties'))
-    #flash_errors(formobject) 
+    flash_errors(formobject) 
     return render_template('addproperty.html', formobj = formobject)
 
 

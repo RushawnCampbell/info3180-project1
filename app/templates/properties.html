@@ -5,10 +5,9 @@
 
  {% block main %}
 <h2>Properties </h2>
-
+{% include 'flash_messages.html' %}
 <section id="propertyset"> 
     {% for property in propertylist: %}
-
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src='{{ url_for("get_image", filename=property.photo)}}' alt="Property image"/>
         <div class="card-body"> 

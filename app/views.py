@@ -78,6 +78,7 @@ def addproperty():
 def displayproperties():
    if request.method == 'GET':
        properties = Property.query.all()
+       print(properties)
        return render_template('properties.html', propertylist = properties, loc =locale)
 
 
